@@ -1,19 +1,21 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const db = require('./db')
-const app = express()
-const PORT = 4000
-app.use(bodyParser.json())
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
+const db = require("./db");
+const app = express();
+const PORT = 4000;
+app.use(bodyParser.json());
+app.use(express.urlencoded({extended: false}))
 
+app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
 
-app.get('/', (req, res)=> {
-    res.send('Hello from faiz server')
-})
+const urlRoutes = require("./routes/urlRoutes");
+const staticRoutes = require('./routes/staticRoutes')
 
-const urlRoutes = require('./routes/urlRoutes')
+app.use("/url", urlRoutes);
+app.use('/', staticRoutes)
 
-app.use('/', urlRoutes)
-
-app.listen(PORT, ()=> {
-    console.log(`Server listening on port:${PORT}`)
-})
+app.listen(PORT, () => {
+  console.log(`Server listening on port:${PORT}`);
+});

@@ -4,7 +4,7 @@ const url = require("../models/url");
 
 const router = express.Router();
 
-router.post("/url", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const data = req.body;
     if (!data.url) {
@@ -17,7 +17,9 @@ router.post("/url", async (req, res) => {
       redirectURL: data.url,
     });
     console.log("Url created successfully");
-    res.status(201).json({ id: shortIdValue });
+    res.render("Home", {
+      id: shortIdValue
+    })
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
